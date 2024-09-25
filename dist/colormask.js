@@ -3,7 +3,7 @@
  * https://github.com/RobinHerbots/Inputmask
  * Copyright (c) 2010 - 2024 Robin Herbots
  * Licensed under the MIT license
- * Version: 5.0.10-beta.9
+ * Version: 5.0.10-beta.10
  */
 !function(e, t) {
     if ("object" == typeof exports && "object" == typeof module) module.exports = t(); else if ("function" == typeof define && define.amd) define([], t); else {
@@ -1175,7 +1175,7 @@
                                         var c = P(t).lastIndex, u = j.call(n, i.index, t, n && n.maskset);
                                         P(t).lastIndex = c, l = e.slice(0, e.indexOf(u.nextMatch[0]));
                                     } else {
-                                        for (var f = i[0][0], p = i.index; n && (t.placeholder[s.getTest.call(n, p).match.placeholder] || s.getTest.call(n, p).match.placeholder) === f; ) p++;
+                                        for (var f = i[0][0], p = i.index; n && (t.placeholder["".concat(i.index, "'").concat(s.getTest.call(n, p).match.placeholder)] || s.getTest.call(n, p).match.placeholder) === f; ) p++;
                                         a = p;
                                         var d = p - i.index;
                                         l = e.slice(0, d || y[o] && y[o][4] || o.length);
@@ -1372,7 +1372,7 @@
                     var r, o, l = "", s = 0, c = !1, u = {};
                     for (P(n).lastIndex = 0; r = P(n).exec(e); ) if ("\\" === r[0]) c = !0; else {
                         if (void 0 === t) if (!c && (o = w(r))) l += "(" + o[0] + ")", n.placeholder && "" !== n.placeholder ? (u[s] = n.placeholder[r.index % n.placeholder.length], 
-                        u[n.placeholder[r.index % n.placeholder.length]] = r[0].charAt(0)) : u[s] = r[0].charAt(0); else switch (r[0]) {
+                        u["".concat(r.index, "'").concat(n.placeholder[r.index % n.placeholder.length])] = r[0].charAt(0)) : u[s] = r[0].charAt(0); else switch (r[0]) {
                           case "[":
                             l += "(";
                             break;
@@ -1401,20 +1401,30 @@
                     }, t);
                 }
                 function j(e, t, n) {
-                    var i, a, r = this, o = n && n.tests[e] ? t.placeholder[n.tests[e][0].match.placeholder] || n.tests[e][0].match.placeholder : "", l = 0, c = 0;
+                    var i, a, r = this, o = 0, l = 0;
                     for (P(t).lastIndex = 0; a = P(t).exec(t.inputFormat); ) {
-                        var u = /\d+$/.exec(a[0]);
-                        if (u) c = parseInt(u[0]); else {
-                            for (var f = a[0][0], p = l; r && (t.placeholder[s.getTest.call(r, p).match.placeholder] || s.getTest.call(r, p).match.placeholder) === f; ) p++;
-                            0 === (c = p - l) && (c = a[0].length);
+                        var c = /\d+$/.exec(a[0]);
+                        if (c) l = parseInt(c[0]); else {
+                            for (var u = a[0][0], f = o; r && (t.placeholder["".concat(a.index, "'").concat(s.getTest.call(r, f).match.placeholder)] || s.getTest.call(r, f).match.placeholder) === u; ) f++;
+                            0 === (l = f - o) && (l = a[0].length);
                         }
-                        if (l += c, -1 != a[0].indexOf(o) || l >= e + 1) {
-                            i = a, a = P(t).exec(t.inputFormat);
-                            break;
+                        if ((o += l) >= e + 1) {
+                            var p = "";
+                            if (n && n.tests[e]) {
+                                var d = Object.keys(t.placeholder).filter((function(t) {
+                                    for (var i = a.index - 1; i < o; i++) if (t === "".concat(i, "'").concat(n.tests[e][0].match.placeholder)) return !0;
+                                    return !1;
+                                }));
+                                p = d.length > 0 ? t.placeholder[d[0]] : n.tests[e][0].match.placeholder;
+                            }
+                            if (-1 !== a[0].indexOf(p)) {
+                                i = a, a = P(t).exec(t.inputFormat);
+                                break;
+                            }
                         }
                     }
                     return {
-                        targetMatchIndex: l - c,
+                        targetMatchIndex: o - l,
                         nextMatch: a,
                         targetMatch: i
                     };
