@@ -3,7 +3,7 @@
  * https://github.com/RobinHerbots/Inputmask
  * Copyright (c) 2010 - 2024 Robin Herbots
  * Licensed under the MIT license
- * Version: 5.0.10-beta.11
+ * Version: 5.0.10-beta.13
  */
 !function(e, t) {
     if ("object" == typeof exports && "object" == typeof module) module.exports = t(require("jquery")); else if ("function" == typeof define && define.amd) define([ "jquery" ], t); else {
@@ -3394,16 +3394,16 @@
                     if (!c.hasAlternator) return !1;
                     var h, m, v, g, y, k, b, x, w, P, S, O = u.extend(!0, [], d.validPositions), M = u.extend(!0, {}, d.tests), _ = !1, E = !1, j = void 0 !== a ? a : r.getLastValidPosition.call(c);
                     if (l && (P = l.begin, S = l.end, l.begin > l.end && (P = l.end, S = l.begin)), 
-                    -1 === j && void 0 === a) h = 0, m = (g = o.getTest.call(c, h)).alternation; else for (;j >= 0; j--) if ((v = d.validPositions[j]) && void 0 !== v.alternation) {
+                    -1 === j && void 0 === a) h = 0, m = (g = o.getTest.call(c, h)).alternation; else for (;j >= 0; j--) if ((v = 0 === j ? o.getTest.call(c, 0) : d.validPositions[j]) && void 0 !== v.alternation) {
                         if (j <= (e || 0) && g && g.locator[v.alternation] !== v.locator[v.alternation]) break;
-                        h = j, m = d.validPositions[h].alternation, g = v;
+                        h = j, m = v.alternation, g = v;
                     }
                     if (void 0 !== m) {
                         b = parseInt(h), d.excludes[b] = d.excludes[b] || [], !0 !== e && d.excludes[b].push((0, 
                         o.getDecisionTaker)(g) + ":" + g.alternation);
                         var T = [], A = -1;
                         for (y = b; b < r.getLastValidPosition.call(c, void 0, !0) + 1; y++) -1 === A && e <= y && void 0 !== t && (T.push(t), 
-                        A = T.length - 1), (k = d.validPositions[b]) && !0 !== k.generatedInput && (void 0 === l || y < P || y >= S) && T.push(k.input), 
+                        A = T.length - 1), (k = d.validPositions[b]) && !0 !== k.generatedInput && (0 !== b || k.input !== p.skipOptionalPartCharacter) && (void 0 === l || y < P || y >= S) && T.push(k.input), 
                         d.validPositions.splice(b, 1);
                         for (-1 === A && void 0 !== t && (T.push(t), A = T.length - 1); void 0 !== d.excludes[b] && d.excludes[b].length < 10; ) {
                             for (d.tests = {}, r.resetMaskSet.call(c, !0), _ = !0, y = 0; y < T.length && (x = _.caret || 0 == p.insertMode && null != x ? r.seekNext.call(c, x) : r.getLastValidPosition.call(c, void 0, !0) + 1, 
