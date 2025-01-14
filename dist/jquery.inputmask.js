@@ -1,9 +1,9 @@
 /*!
  * dist/jquery.inputmask
  * https://github.com/RobinHerbots/Inputmask
- * Copyright (c) 2010 - 2024 Robin Herbots
+ * Copyright (c) 2010 - 2025 Robin Herbots
  * Licensed under the MIT license
- * Version: 5.0.10-beta.9
+ * Version: 5.0.10-beta.10
  */
 !function(e, t) {
     if ("object" == typeof exports && "object" == typeof module) module.exports = t(require("jquery")); else if ("function" == typeof define && define.amd) define([ "jquery" ], t); else {
@@ -1614,7 +1614,7 @@
                                     unmaskAsNumber: !0
                                 }));
                                 if (null !== a.min && f < a.min && !0 !== c && (f.toString().length > a.min.toString().length || e[0] === a.radixPoint || f < 0)) return !1;
-                                if (null !== a.max && f > a.max) return !!a.SetMaxOnOverflow && {
+                                if (null !== a.max && a.max >= 0 && f > a.max) return !!a.SetMaxOnOverflow && {
                                     refreshFromBuffer: !0,
                                     buffer: u(a.max.toString().replace(".", a.radixPoint).split(""), a.digits, a).reverse()
                                 };
@@ -1679,13 +1679,17 @@
                             if (e) switch (e.type) {
                               case "blur":
                               case "checkval":
-                                if (null !== i.min) {
+                                if (null !== i.min || null !== i.max) {
                                     var d = i.onUnMask(t.slice().reverse().join(""), void 0, l.extend({}, i, {
                                         unmaskAsNumber: !0
                                     }));
                                     if (null !== i.min && d < i.min) return {
                                         refreshFromBuffer: !0,
                                         buffer: u(i.min.toString().replace(".", i.radixPoint).split(""), i.digits, i).reverse()
+                                    };
+                                    if (null !== i.max && d > i.max) return {
+                                        refreshFromBuffer: !0,
+                                        buffer: u(i.max.toString().replace(".", i.radixPoint).split(""), i.digits, i).reverse()
                                     };
                                 }
                                 if (t[t.length - 1] === i.negationSymbol.front) {
