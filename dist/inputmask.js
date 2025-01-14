@@ -3,7 +3,7 @@
  * https://github.com/RobinHerbots/Inputmask
  * Copyright (c) 2010 - 2025 Robin Herbots
  * Licensed under the MIT license
- * Version: 5.0.10-beta.10
+ * Version: 5.0.10-beta.15
  */
 !function(e, t) {
     if ("object" == typeof exports && "object" == typeof module) module.exports = t(); else if ("function" == typeof define && define.amd) define([], t); else {
@@ -1060,7 +1060,7 @@
                                         var c = P(t).lastIndex, u = j.call(n, i.index, t, n && n.maskset);
                                         P(t).lastIndex = c, l = e.slice(0, e.indexOf(u.nextMatch[0]));
                                     } else {
-                                        for (var f = i[0][0], p = i.index; n && (t.placeholder[s.getTest.call(n, p).match.placeholder] || s.getTest.call(n, p).match.placeholder) === f; ) p++;
+                                        for (var f = i[0][0], p = i.index; n && (t.placeholder["".concat(i.index, "'").concat(s.getTest.call(n, p).match.placeholder)] || s.getTest.call(n, p).match.placeholder) === f; ) p++;
                                         a = p;
                                         var d = p - i.index;
                                         l = e.slice(0, d || y[o] && y[o][4] || o.length);
@@ -1257,7 +1257,7 @@
                     var r, o, l = "", s = 0, c = !1, u = {};
                     for (P(n).lastIndex = 0; r = P(n).exec(e); ) if ("\\" === r[0]) c = !0; else {
                         if (void 0 === t) if (!c && (o = w(r))) l += "(" + o[0] + ")", n.placeholder && "" !== n.placeholder ? (u[s] = n.placeholder[r.index % n.placeholder.length], 
-                        u[n.placeholder[r.index % n.placeholder.length]] = r[0].charAt(0)) : u[s] = r[0].charAt(0); else switch (r[0]) {
+                        u["".concat(r.index, "'").concat(n.placeholder[r.index % n.placeholder.length])] = r[0].charAt(0)) : u[s] = r[0].charAt(0); else switch (r[0]) {
                           case "[":
                             l += "(";
                             break;
@@ -1286,20 +1286,30 @@
                     }, t);
                 }
                 function j(e, t, n) {
-                    var i, a, r = this, o = n && n.tests[e] ? t.placeholder[n.tests[e][0].match.placeholder] || n.tests[e][0].match.placeholder : "", l = 0, c = 0;
+                    var i, a, r = this, o = 0, l = 0;
                     for (P(t).lastIndex = 0; a = P(t).exec(t.inputFormat); ) {
-                        var u = /\d+$/.exec(a[0]);
-                        if (u) c = parseInt(u[0]); else {
-                            for (var f = a[0][0], p = l; r && (t.placeholder[s.getTest.call(r, p).match.placeholder] || s.getTest.call(r, p).match.placeholder) === f; ) p++;
-                            0 === (c = p - l) && (c = a[0].length);
+                        var c = /\d+$/.exec(a[0]);
+                        if (c) l = parseInt(c[0]); else {
+                            for (var u = a[0][0], f = o; r && (t.placeholder["".concat(a.index, "'").concat(s.getTest.call(r, f).match.placeholder)] || s.getTest.call(r, f).match.placeholder) === u; ) f++;
+                            0 === (l = f - o) && (l = a[0].length);
                         }
-                        if (l += c, -1 != a[0].indexOf(o) || l >= e + 1) {
-                            i = a, a = P(t).exec(t.inputFormat);
-                            break;
+                        if ((o += l) >= e + 1) {
+                            var p = "";
+                            if (n && n.tests[e]) {
+                                var d = Object.keys(t.placeholder).filter((function(t) {
+                                    for (var i = a.index - 1; i < o; i++) if (t === "".concat(i, "'").concat(n.tests[e][0].match.placeholder)) return !0;
+                                    return !1;
+                                }));
+                                p = d.length > 0 ? t.placeholder[d[0]] : n.tests[e][0].match.placeholder;
+                            }
+                            if (-1 !== a[0].indexOf(p)) {
+                                i = a, a = P(t).exec(t.inputFormat);
+                                break;
+                            }
                         }
                     }
                     return {
-                        targetMatchIndex: l - c,
+                        targetMatchIndex: o - l,
                         nextMatch: a,
                         targetMatch: i
                     };
@@ -1982,7 +1992,7 @@
                         if (void 0 === e.inputmask) return e.value;
                         e.inputmask && e.inputmask.refreshValue && c(e, e.inputmask._valueGet(!0));
                     }
-                    for (var a = [], r = i.validPositions, l = 0, s = r.length; l < s; l++) r[l] && r[l].match && (1 != r[l].match.static || Array.isArray(i.metadata) && !0 !== r[l].generatedInput) && a.push(r[l].input);
+                    for (var a = [], r = i.validPositions, l = 0, s = r.length; l < s; l++) r[l] && r[l].match && (1 != r[l].match.static || !0 !== n.keepStatic && Array.isArray(i.metadata) && !0 !== r[l].generatedInput) && a.push(r[l].input);
                     var u = 0 === a.length ? "" : (t.isRTL ? a.reverse() : a).join("");
                     if ("function" == typeof n.onUnMask) {
                         var f = (t.isRTL ? o.getBuffer.call(t).slice().reverse() : o.getBuffer.call(t)).join("");
@@ -3491,16 +3501,16 @@
                     if (!c.hasAlternator) return !1;
                     var h, v, m, g, y, k, b, x, w, P, S, O = u.extend(!0, [], d.validPositions), _ = u.extend(!0, {}, d.tests), M = !1, E = !1, j = void 0 !== a ? a : r.getLastValidPosition.call(c);
                     if (s && (P = s.begin, S = s.end, s.begin > s.end && (P = s.end, S = s.begin)), 
-                    -1 === j && void 0 === a) h = 0, v = (g = o.getTest.call(c, h)).alternation; else for (;j >= 0; j--) if ((m = d.validPositions[j]) && void 0 !== m.alternation) {
+                    -1 === j && void 0 === a) h = 0, v = (g = o.getTest.call(c, h)).alternation; else for (;j >= 0; j--) if ((m = 0 === j ? o.getTest.call(c, 0) : d.validPositions[j]) && void 0 !== m.alternation) {
                         if (j <= (e || 0) && g && g.locator[m.alternation] !== m.locator[m.alternation]) break;
-                        h = j, v = d.validPositions[h].alternation, g = m;
+                        h = j, v = m.alternation, g = m;
                     }
                     if (void 0 !== v) {
                         b = parseInt(h), d.excludes[b] = d.excludes[b] || [], !0 !== e && d.excludes[b].push((0, 
                         o.getDecisionTaker)(g) + ":" + g.alternation);
                         var T = [], A = -1;
                         for (y = b; b < r.getLastValidPosition.call(c, void 0, !0) + 1; y++) -1 === A && e <= y && void 0 !== t && (T.push(t), 
-                        A = T.length - 1), (k = d.validPositions[b]) && !0 !== k.generatedInput && (void 0 === s || y < P || y >= S) && T.push(k.input), 
+                        A = T.length - 1), (k = d.validPositions[b]) && !0 !== k.generatedInput && (0 !== b || k.input !== p.skipOptionalPartCharacter) && (void 0 === s || y < P || y >= S) && T.push(k.input), 
                         d.validPositions.splice(b, 1);
                         for (-1 === A && void 0 !== t && (T.push(t), A = T.length - 1); void 0 !== d.excludes[b] && d.excludes[b].length < 10; ) {
                             for (d.tests = {}, r.resetMaskSet.call(c, !0), M = !0, y = 0; y < T.length && (x = M.caret || 0 == p.insertMode && null != x ? r.seekNext.call(c, x) : r.getLastValidPosition.call(c, void 0, !0) + 1, 

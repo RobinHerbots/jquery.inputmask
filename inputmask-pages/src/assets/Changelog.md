@@ -9,6 +9,7 @@
 ### Fixed
 
 - Negative limits for numeric inputs #2796
+- datetime + placeholder are not working properly #2811
 - it is not possible to use escaped characters as a separator in dates #2791
 - Datetime mask dd.mm.yyyy leading to Uncaught InternalError: too much recursion #2814
 - Autofill shows TypeError in Chrome console. #2809
