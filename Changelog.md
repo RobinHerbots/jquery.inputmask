@@ -8,6 +8,7 @@
 
 ### Fixed
 
+- Cannot change the mask on multiple masks when the input is already filled. #2820
 - Negative limits for numeric inputs #2796
 - datetime + placeholder are not working properly #2811
 - it is not possible to use escaped characters as a separator in dates #2791

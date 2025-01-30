@@ -3,7 +3,7 @@
  * https://github.com/RobinHerbots/Inputmask
  * Copyright (c) 2010 - 2025 Robin Herbots
  * Licensed under the MIT license
- * Version: 5.0.10-beta.15
+ * Version: 5.0.10-beta.16
  */
 !function(e, t) {
     if ("object" == typeof exports && "object" == typeof module) module.exports = t(); else if ("function" == typeof define && define.amd) define([], t); else {
@@ -2152,7 +2152,8 @@
                                 }
                                 return a;
                             }(g, m) ? (c = a.EventHandlers.keypressEvent.call(u, i, !0, !1, n, u.caretPos.begin)) && (g = u.caretPos.begin + 1, 
-                            m = "") : c = a.EventHandlers.keypressEvent.call(u, i, !0, !1, n, r + 1), c ? (void 0 !== c.pos && f.validPositions[c.pos] && !0 === f.validPositions[c.pos].match.static && void 0 === f.validPositions[c.pos].alternation && (k.push(c.pos), 
+                            m = "") : c = !0 === s.getTest.call(u, t).match.static && a.EventHandlers.keypressEvent.call(u, i, !0, !1, n, r + 1), 
+                            c ? (void 0 !== c.pos && f.validPositions[c.pos] && !0 === f.validPositions[c.pos].match.static && void 0 === f.validPositions[c.pos].alternation && (k.push(c.pos), 
                             u.isRTL || (c.forwardPosition = c.pos + 1)), p.call(u, void 0, o.getBuffer.call(u), c.forwardPosition, i, !1), 
                             u.caretPos = {
                                 begin: c.forwardPosition,
@@ -2161,11 +2162,13 @@
                         }
                     })), k.length > 0) {
                         var x, w, P = o.seekNext.call(u, -1, void 0, !1);
-                        if (!l.isComplete.call(u, o.getBuffer.call(u)) && k.length <= P || l.isComplete.call(u, o.getBuffer.call(u)) && k.length > 0 && k.length !== P && 0 === k[0]) for (var S = P; void 0 !== (x = k.shift()); ) if (x < S) {
-                            var O = new h.Event("_checkval");
-                            if ((w = f.validPositions[x]).generatedInput = !0, O.key = w.input, (c = a.EventHandlers.keypressEvent.call(u, O, !0, !1, n, S)) && void 0 !== c.pos && c.pos !== x && f.validPositions[c.pos] && !0 === f.validPositions[c.pos].match.static) k.push(c.pos); else if (!c) break;
-                            S++;
-                        }
+                        if (!l.isComplete.call(u, o.getBuffer.call(u)) && k.length <= P || l.isComplete.call(u, o.getBuffer.call(u)) && k.length > 0 && k.length !== P && 0 === k[0]) {
+                            for (var S = P; void 0 !== (x = k.shift()); ) if (x < S) {
+                                var O = new h.Event("_checkval");
+                                if ((w = f.validPositions[x]).generatedInput = !0, O.key = w.input, (c = a.EventHandlers.keypressEvent.call(u, O, !0, !1, n, S)) && void 0 !== c.pos && c.pos !== x && f.validPositions[c.pos] && !0 === f.validPositions[c.pos].match.static) k.push(c.pos); else if (!c) break;
+                                S++;
+                            }
+                        } else for (;x = k.pop(); ) (w = f.validPositions[x]) && void 0 === f.validPositions[x + 1] && delete f.validPositions[x];
                     }
                     t && p.call(u, e, o.getBuffer.call(u), c ? c.forwardPosition : u.caretPos.begin, r || new h.Event("checkval"), r && ("input" === r.type && u.undoValue !== o.getBuffer.call(u).join("") || "paste" === r.type)), 
                     d.skipOptionalPartCharacter = y;
@@ -3069,7 +3072,7 @@
                         l.getBufferTemplate.call(e).join(""), e.undoValue = e._valueGet(!0);
                         var f = (n.inputmask.shadowRoot || n.ownerDocument).activeElement;
                         if ("" !== n.inputmask._valueGet(!0) || !1 === t.clearMaskOnLostFocus || f === n) {
-                            (0, o.applyInputValue)(n, n.inputmask._valueGet(!0), t);
+                            (0, o.applyInputValue)(n, n.inputmask._valueGet(!0));
                             var p = l.getBuffer.call(e).slice();
                             !1 === s.isComplete.call(e, p) && t.clearIncomplete && l.resetMaskSet.call(e, !1), 
                             t.clearMaskOnLostFocus && f !== n && (-1 === l.getLastValidPosition.call(e) ? p = [] : o.clearOptionalTail.call(e, p)), 
