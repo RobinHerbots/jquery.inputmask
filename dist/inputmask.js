@@ -3,7 +3,7 @@
  * https://github.com/RobinHerbots/Inputmask
  * Copyright (c) 2010 - 2025 Robin Herbots
  * Licensed under the MIT license
- * Version: 5.0.10-beta.16
+ * Version: 5.0.10-beta.17
  */
 !function(e, t) {
     if ("object" == typeof exports && "object" == typeof module) module.exports = t(); else if ("function" == typeof define && define.amd) define([], t); else {
@@ -2130,7 +2130,7 @@
                             if (function(e, t, n, i) {
                                 function a(t, a) {
                                     var r = "" === i ? t : i + "-" + t;
-                                    null !== (a = void 0 !== a ? a : e.getAttribute(r)) && ("string" == typeof a && (0 === t.indexOf("on") ? a = l.default[a] : "false" === a ? a = !1 : "true" === a && (a = !0)), 
+                                    null !== (a = void 0 !== a ? a : e.getAttribute(r)) && ("string" == typeof a && (t.startsWith("on") ? a = l.default[a] : "false" === a ? a = !1 : "true" === a ? a = !0 : "mask" === t && (a = a.replace(/\\\\/g, "\\"))), 
                                     n[t] = a);
                                 }
                                 if (!0 === t.importDataAttributes) {
