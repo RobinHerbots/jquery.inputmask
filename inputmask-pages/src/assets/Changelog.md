@@ -8,6 +8,8 @@
 
 ### Updates
 
+- fix: Inputmask works weird under ShadowDOM #2753
+
 ### Fixed
 
 - FormData values are not unmasked #2409
