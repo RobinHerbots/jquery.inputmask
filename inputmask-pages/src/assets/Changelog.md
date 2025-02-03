@@ -4,10 +4,13 @@
 
 ### Addition
 
+- add FormData support for inputmask #2409
+
 ### Updates
 
 ### Fixed
 
+- FormData values are not unmasked #2409
 - Cannot change the mask on multiple masks when the input is already filled. #2820
 - Negative limits for numeric inputs #2796
 - datetime + placeholder are not working properly #2811
