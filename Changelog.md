@@ -4,6 +4,7 @@
 
 ### Addition
 
+- add outputFormat option #2526
 - add FormData support for inputmask #2409
 
 ### Updates

@@ -1211,6 +1211,17 @@ substitutes: {
 
 Default: {}
 
+### outputMask
+
+Define the mask to use for the output.
+
+```javascript
+$(selector).inputmask({ mask: "99-999-99", outputMask: "(99) 99999" });
+```
+Input => 1212345      mask => 12-123-45     outputMask => (12) 12345
+
+
+
 ## General
 
 ### set a value and apply the mask
