@@ -4,10 +4,19 @@
 
 ### Addition
 
+- add FormData support for inputmask #2409
+
 ### Updates
+
+- fix: Inputmask works weird under ShadowDOM #2753
 
 ### Fixed
 
+- FormData values are not unmasked #2409
+- Cannot change the mask on multiple masks when the input is already filled. #2820
+- Negative limits for numeric inputs #2796
+- datetime + placeholder are not working properly #2811
+- it is not possible to use escaped characters as a separator in dates #2791
 - Datetime mask dd.mm.yyyy leading to Uncaught InternalError: too much recursion #2814
 - Autofill shows TypeError in Chrome console. #2809
 - Unmasked value stopped working in version 5.0.9 #2800
